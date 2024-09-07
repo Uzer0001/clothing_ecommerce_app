@@ -19,10 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthService _authService = AuthService();
   var _isObscured = true;
 
-  
-
- 
-
   Future<void> _signInWithEmailAndPassword() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -39,12 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.pushReplacementNamed(context, '/navigation');
           }
         } else {
-          setState(() {});
+          if (mounted) {
+            setState(() {});
+          }
         }
         // Navigator.of(context).pushReplacementNamed('/home');
       } on FirebaseAuthException catch (e) {
         print(e.message);
-         
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
@@ -53,9 +51,11 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } finally {
-        setState(() {
-          _isLoading = false;
-        });
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       }
     }
   }
