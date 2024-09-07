@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../services/auth_service.dart';
@@ -21,18 +19,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _signInWithEmailAndPassword() async {
     if (_formKey.currentState!.validate()) {
+      if(mounted){
       setState(() {
         _isLoading = true;
       });
+      }
       try {
         bool success =
             await _authService.signInWithEmailAndPassword(_email, _password);
         if (success) {
           bool isAdmin = await _authService.isAdmin();
           if (isAdmin) {
+            if(mounted){
             Navigator.pushReplacementNamed(context, '/adminDashboard');
+            }
           } else {
+            if(mounted){
             Navigator.pushReplacementNamed(context, '/navigation');
+            }
           }
         } else {
           if (mounted) {
@@ -42,14 +46,14 @@ class _LoginScreenState extends State<LoginScreen> {
         // Navigator.of(context).pushReplacementNamed('/home');
       } on FirebaseAuthException catch (e) {
         print(e.message);
-
+        if(mounted){
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            behavior: SnackBarBehavior.floating,
             content: Text(e.message ?? 'Failed to sign in with email'),
             backgroundColor: Colors.red,
           ),
         );
+        }
       } finally {
         if (mounted) {
           setState(() {
