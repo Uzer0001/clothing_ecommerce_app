@@ -50,7 +50,7 @@ class AuthService {
   Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
-      await _googleSignIn.signOut(); // Sign out from Google as well
+      await _googleSignIn.signOut();
     } catch (e) {
       print('Error signing out: $e');
     }
@@ -68,6 +68,7 @@ class AuthService {
     }
     return false;
   }
+
   // Sign in with Google (Mobile)
   Future<bool> signInWithGoogle() async {
     try {
@@ -92,7 +93,7 @@ class AuthService {
         // Initialize user data in Firestore if not present
         await _firestore.collection('users').doc(userCredential.user!.uid).set({
           'email': userCredential.user!.email,
-          'role': 'user', // Default role for Google sign-in
+          'role': 'user',
         });
       }
       return true;
