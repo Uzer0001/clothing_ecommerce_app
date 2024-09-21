@@ -18,15 +18,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String _password = '';
   bool _isLoading = false;
   String _role = 'user';
-  bool _isObscured=true;
+  bool _isObscured = true;
 
   @override
   void initState() {
-    
     super.initState();
 
     _isObscured = true;
   }
+
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
@@ -61,6 +61,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
                         }
+
+                        // Regular expression to validate email format
+                        final emailRegExp = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                        if (!emailRegExp.hasMatch(value)) {
+                          return 'Please enter a valid email address';
+                        }
+
                         return null;
                       },
                       onChanged: (value) {
@@ -75,11 +83,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.lock_outline_rounded),
                         labelText: "Password",
-                        suffixIcon:  IconButton(
+                        suffixIcon: IconButton(
                           padding: const EdgeInsetsDirectional.only(end: 12.0),
                           onPressed: () {
                             setState(() {
-                              _isObscured =! _isObscured;
+                              _isObscured = !_isObscured;
                             });
                           },
                           icon: _isObscured
@@ -139,9 +147,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         .pushReplacementNamed('/navigation');
                                   } on FirebaseAuthException catch (e) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                       SnackBar(
+                                      SnackBar(
                                         content: Text(
-                                             e.message ?? 'Registration failed'),
+                                            e.message ?? 'Registration failed'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'An unexpected error occurred'),
                                         backgroundColor: Colors.red,
                                       ),
                                     );

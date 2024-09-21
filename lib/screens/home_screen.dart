@@ -19,13 +19,10 @@ class HomeScreen extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
-
           final products = snapshot.data!.docs;
-
           return GridView.builder(
             padding: const EdgeInsets.all(10.0),
             itemCount: products.length,
@@ -69,7 +66,6 @@ class HomeScreen extends StatelessWidget {
           );
         },
       ),
-     
     );
   }
 }

@@ -1,4 +1,7 @@
+import 'package:clothing_app/screens/cart_screen/cart_screen.dart';
+import 'package:clothing_app/screens/category_screen/category_screen.dart';
 import 'package:clothing_app/screens/home_screen.dart';
+import 'package:clothing_app/screens/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,14 +49,8 @@ class Navigationcontroller extends GetxController {
 
   final screens = [
     const HomeScreen(),
-    Container(
-      color: Colors.green,
-    ),
-    Container(
-      color: Colors.red,
-    ),
-    Container(
-      color: Colors.blue,
-    )
+    const CategoryScreen(),
+    const CartScreen(),
+    const ProfileScreen()
   ];
 }

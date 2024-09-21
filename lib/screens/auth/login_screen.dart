@@ -40,8 +40,14 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         } else {
           if (mounted) {
-            setState(() {});
-          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login failed. Please check your credentials.'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          setState(() {});
+        }
         }
         // Navigator.of(context).pushReplacementNamed('/home');
       } on FirebaseAuthException catch (e) {
@@ -108,6 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
+                        }
+                        final emailRegExp = RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                        if (!emailRegExp.hasMatch(value)) {
+                          return 'Please enter a valid email address';
                         }
                         return null;
                       },
