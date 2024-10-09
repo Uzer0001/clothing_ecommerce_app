@@ -47,9 +47,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.shopping_bag),
             title: const Text('Products'),
             onTap: () {
-            //  Navigator.of(context).push(MaterialPageRoute(builder: (builder){
-              // return const ProductListScreen();
-            //  }));
+              Navigator.of(context).pushNamed('/productScreen');
             },
           ),
           ListTile(

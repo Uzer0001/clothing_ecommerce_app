@@ -1,3 +1,4 @@
+import 'package:clothing_app/widget/app_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -5,6 +6,11 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color:Colors.blue ,);
+    return Scaffold(
+      drawer: AppDrawer(),
+      appBar: AppBar(
+        title: const Text("Profile"),
+      ),
+    );
   }
 }

@@ -4,6 +4,7 @@ class Product {
   final String id;
   final String title;
   final String description;
+  final double quntity;
   final double price;
   final String imageUrl;
 
@@ -11,6 +12,7 @@ class Product {
     required this.id,
     required this.title,
     required this.description,
+    required this.quntity,
     required this.price,
     required this.imageUrl,
   });
@@ -20,6 +22,7 @@ class Product {
     return Product(
       id: doc.id,
       title: data['title'],
+      quntity:data['quntity'].toDouble(),
       description: data['description'],
       price: data['price'].toDouble(),
       imageUrl: data['imageUrl'],
@@ -32,6 +35,7 @@ class Product {
       id: doc.id,
       title: data['title'],
       description: data['description'],
+      quntity: data['quntity'],
       price: data['price'],
       imageUrl: data['imageUrl'],
     );

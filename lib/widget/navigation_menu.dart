@@ -1,6 +1,6 @@
 import 'package:clothing_app/screens/cart_screen/cart_screen.dart';
 import 'package:clothing_app/screens/category_screen/category_screen.dart';
-import 'package:clothing_app/screens/home_screen.dart';
+import 'package:clothing_app/screens/home_screen/home_screen.dart';
 import 'package:clothing_app/screens/profile_screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

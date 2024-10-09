@@ -1,3 +1,5 @@
+import 'package:clothing_app/screens/admin/add_product/add_products.dart';
+import 'package:clothing_app/screens/admin/product_screen.dart';
 import 'package:clothing_app/screens/auth/forgot_password.dart';
 import 'package:clothing_app/screens/auth/registration_screen.dart';
 import 'package:clothing_app/widget/navigation_menu.dart';
@@ -7,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/admin/admin_dashboard_screen.dart';
 import 'screens/auth/login_screen.dart';
-import 'screens/home_screen.dart';
+import 'screens/home_screen/home_screen.dart';
 import 'services/auth_service.dart';
 
 
@@ -52,6 +54,8 @@ class MyApp extends StatelessWidget {
           '/forgotpassword':(context)=>const ForgotPassword(),
           '/home': (context) => const HomeScreen(),
           '/adminDashboard': (context) => const AdminDashboardScreen(),
+          '/addProduct':(context)=>const AddProducts(),
+          '/productScreen':(context)=>const ProductScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),
