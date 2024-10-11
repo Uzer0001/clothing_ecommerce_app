@@ -1,81 +1,106 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../models/product.dart';
 import '../../widget/app_drawer.dart';
-import '../../widget/category_cart.dart';
-import '../../widget/product_cart.dart';
-
+import '../../widget/support_widget.dart';
+import '../auth/login_screen.dart';
 
 class AdminDashboardScreen extends StatelessWidget {
-  const AdminDashboardScreen({super.key});
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> _signOut(BuildContext context) async {
+    await _auth.signOut();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
+
+  AdminDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Dashboard'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              // Handle sign out
-              // You should call your AuthService sign out method here
-            },
-          ),
-        ],
-      ),
-      drawer: AppDrawer(),
-      body: Column(
-        children: [
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('Product').snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (!snapshot.hasData || snapshot.data?.docs.isEmpty == true) {
-                  return const Center(child: Text('No products found.'));
-                }
-
-                return ListView(
-                  children: snapshot.data!.docs.map((doc) {
-                    final product = Product.fromDocument(doc);
-                    return ProductCard(product: product);
-                  }).toList(),
-                );
+        appBar: AppBar(
+          title: const Text('Admin Dashboard'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                _signOut(context);
               },
             ),
-          ),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('categories').snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (!snapshot.hasData || snapshot.data?.docs.isEmpty == true) {
-                  return const Center(child: Text('No categories found.'));
-                }
-
-                return ListView(
-                  children: snapshot.data!.docs.map((doc) {
-                    final category = doc.data() as Map<String, dynamic>;
-                    return CategoryCard(
-                      title: category['name'],
+          ],
+        ),
+        drawer: AppDrawer(),
+        body: Column(children: [
+          SizedBox(
+              height: 240,
+              child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    GestureDetector(
                       onTap: () {
-                        // Handle category tap
+                        Navigator.of(context).pushNamed("/productScreen");
                       },
-                    );
-                  }).toList(),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(
+                              "assets/logo/cover_logo.png",
+                              height: 150,
+                              width: 150,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(height: 30.0,),
+                            Text(
+                              "Product",
+                              style: AppWidget.semiBoldTextfieldsize(),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/categoryScreen");
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(
+                              "assets/logo/category_logo.jpeg",
+                              height: 150,
+                              width: 150,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(height: 30.0,),
+                            Text(
+                              "Category",
+                              style: AppWidget.semiBoldTextfieldsize(),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],),)
+        ],),);
   }
 }

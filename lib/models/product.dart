@@ -19,16 +19,39 @@ class Product {
 
   factory Product.fromDocument(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
+    double? quantity = data['quntity']?.toDouble();
     return Product(
       id: doc.id,
       title: data['title'],
-      quntity:data['quntity'].toDouble(),
+      quntity:data['quntity']?.toDouble(),
       description: data['description'],
       price: data['price'].toDouble(),
       imageUrl: data['imageUrl'],
     );
   }
 
+  factory Product.fromJson(Map<String, dynamic> json) 
+ {
+    return Product(
+      id: json['id'],
+      title: json['name'],
+      imageUrl: json['imageUrl'],
+      price: json['price'].toDouble(), 
+      quntity:json['quntity'].toDouble(),
+      description: json['description'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': title,
+      'imageUrl': imageUrl,
+      'price': price,
+      'quntity':quntity,
+      'description': description,
+    };
+  }
   factory Product.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return Product(

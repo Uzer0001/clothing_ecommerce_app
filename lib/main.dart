@@ -1,4 +1,6 @@
+import 'package:clothing_app/screens/admin/add_category/add_category.dart';
 import 'package:clothing_app/screens/admin/add_product/add_products.dart';
+import 'package:clothing_app/screens/admin/category_screen.dart';
 import 'package:clothing_app/screens/admin/product_screen.dart';
 import 'package:clothing_app/screens/auth/forgot_password.dart';
 import 'package:clothing_app/screens/auth/registration_screen.dart';
@@ -11,7 +13,6 @@ import 'screens/admin/admin_dashboard_screen.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/home_screen/home_screen.dart';
 import 'services/auth_service.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,6 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -50,12 +50,14 @@ class MyApp extends StatelessWidget {
         routes: {
           '/login': (context) => const LoginScreen(),
           '/register': (context) => const RegistrationScreen(),
-          '/navigation':(context)=>const NavigationMenu(),
-          '/forgotpassword':(context)=>const ForgotPassword(),
+          '/navigation': (context) => const NavigationMenu(),
+          '/forgotpassword': (context) => const ForgotPassword(),
           '/home': (context) => const HomeScreen(),
-          '/adminDashboard': (context) => const AdminDashboardScreen(),
-          '/addProduct':(context)=>const AddProducts(),
-          '/productScreen':(context)=>const ProductScreen(),
+          '/adminDashboard': (context) => AdminDashboardScreen(),
+          '/addProduct': (context) => const AddProducts(),
+          '/productScreen': (context) => const ProductScreen(),
+          '/categoryScreen': (context) => const CategoryScreen(),
+          '/addCategory':(context)=>const AddCategory(),
         },
         debugShowCheckedModeBanner: false,
       ),
@@ -81,8 +83,9 @@ class AuthWrapper extends StatelessWidget {
             builder: (context, isAdminSnapshot) {
               if (isAdminSnapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
-              } else if (isAdminSnapshot.hasData && isAdminSnapshot.data == true) {
-                return const AdminDashboardScreen();
+              } else if (isAdminSnapshot.hasData &&
+                  isAdminSnapshot.data == true) {
+                return AdminDashboardScreen();
               } else {
                 return const NavigationMenu();
               }
@@ -93,6 +96,5 @@ class AuthWrapper extends StatelessWidget {
         }
       },
     );
-    
   }
 }

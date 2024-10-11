@@ -13,10 +13,7 @@ class ProductCard extends StatelessWidget {
       child: ListTile(
         leading: Image.network(product.imageUrl, fit: BoxFit.cover, width: 100, height: 100),
         title: Text(product.title),
-        subtitle: Text('\$${product.price.toString()}'),
-        onTap: () {
-          // Navigate to product details
-        },
+        subtitle: Text('\$${product.price.toString()}')
       ),
     );
   }

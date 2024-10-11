@@ -25,7 +25,7 @@ class AppDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text(user?.displayName ?? 'User'),
+            accountName: Text(user?.displayName ?? 'Admin'),
             accountEmail: Text(user?.email ?? 'Email not available'),
             currentAccountPicture: CircleAvatar(
               backgroundImage: user?.photoURL != null
@@ -40,7 +40,7 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.category),
             title: const Text('Categories'),
             onTap: () {
-              // Navigate to categories screen
+              Navigator.of(context).pushNamed("/categoryScreen");
             },
           ),
           ListTile(

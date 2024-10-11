@@ -1,44 +1,44 @@
-import 'package:clothing_app/screens/admin/edit_procuct/editproductscreen.dart';
+import 'package:clothing_app/models/category.dart';
+import 'package:clothing_app/screens/admin/edit_category/edit_category.dart';
+import 'package:clothing_app/widget/category_cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/product.dart';
-import '../../widget/product_cart.dart';
-
-class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key});
+class CategoryScreen extends StatefulWidget {
+  const CategoryScreen({super.key});
 
   @override
-  State<ProductScreen> createState() => _ProductScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _ProductScreenState extends State<ProductScreen> {
+class _CategoryScreenState extends State<CategoryScreen> {
+
   Future<void> navigateToProductDetails(
       BuildContext context, String documentId) async {
     // Handle potential deletion in ProductDetailsScreen (explained there)
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => Editproductscreen(documentId: documentId),
+        builder: (context) => EditCategory(documentId: documentId),
       ),
     );
   }
 
-  void _deleteProduct(String productId) async {
+  void _deleteCategorie(String categoryId) async {
     try {
       await FirebaseFirestore.instance
-          .collection('Product')
-          .doc(productId)
+          .collection('categories')
+          .doc(categoryId)
           .delete();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Product delete sucsessfully'),
+          content: Text('categorie delete sucsessfully'),
           backgroundColor: Colors.green,
         ),
       );
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('error deleteing product'),
+          content: Text('error deleteing categorie'),
           backgroundColor: Colors.red,
         ),
       );
@@ -46,7 +46,7 @@ class _ProductScreenState extends State<ProductScreen> {
     }
   }
 
-  void _showDeleteConfirmationDialog(String productId) {
+   void _showDeleteConfirmationDialog(String categoryId) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -61,7 +61,7 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           TextButton(
             onPressed: () {
-              _deleteProduct(productId);
+              _deleteCategorie(categoryId);
               Navigator.of(ctx).pop(); // Close the dialog after deletion
             },
             child: const Text("Yes"),
@@ -70,38 +70,37 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("products"),),
+      appBar: AppBar(title: const Text("Category"),),
       body: Column(
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream:
-                  FirebaseFirestore.instance.collection('Product').snapshots(),
+                  FirebaseFirestore.instance.collection('categories').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
 
                 if (!snapshot.hasData || snapshot.data?.docs.isEmpty == true) {
-                  return const Center(child: Text('No products found.'));
+                  return const Center(child: Text('No category found.'));
                 }
 
                 return ListView.builder(
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     final DocumentSnapshot doc = snapshot.data!.docs[index];
-                    final product = Product.fromDocument(doc);
+                    final category = Category.fromDocument(doc);
 
                     return GestureDetector(
                       onLongPress: () => _showDeleteConfirmationDialog(
                           doc.id), // Trigger deletion dialog on long press
                       onTap: () => navigateToProductDetails(
                           context, doc.id), // Navigate to details on tap
-                      child: ProductCard(product: product),
+                      child: CategoryCard(category: category),
                     );
                   },
                 );
@@ -114,10 +113,10 @@ class _ProductScreenState extends State<ProductScreen> {
                 backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
               ),
               onPressed: () {
-                Navigator.of(context).pushNamed("/addProduct");
+                Navigator.of(context).pushNamed("/addCategory");
               },
               child: const Text(
-                "Add Product",
+                "Add Category",
                 style: TextStyle(fontSize: 22.0, color: Colors.black),
               ),
             ),
