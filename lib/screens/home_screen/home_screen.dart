@@ -1,11 +1,11 @@
 // import 'package:clothing_app/widget/app_drawer.dart';
+import 'package:clothing_app/screens/all_product_screen/all_product_screen.dart';
 import 'package:clothing_app/widget/app_drawer.dart';
 import 'package:clothing_app/widget/support_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../models/category.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../models/product.dart';
 import '../category_product_list/category_product_list.dart';
 import '../product_detail_screen/product_detail_screen.dart';
@@ -105,13 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Categories", style: AppWidget.semiBoldTextfieldsize()),
-                const Text(
-                  "See all",
-                  style: TextStyle(
-                      color: Color(0xfffd6f3e),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-                )
               ],
             ),
             SizedBox(
@@ -134,8 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (ctx) => CategoryProductListScreen(
-                                    categoryId: category.id,
-                                    categoryName: category.name,
+                                    categoryName: category.name, 
                                   ),
                                 ),
                               );
@@ -172,11 +164,20 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("All Product", style: AppWidget.semiBoldTextfieldsize()),
-                const Text("See all",
-                    style: TextStyle(
-                        color: Color(0xfffd6f3e),
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold))
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AllProductScreen(products: products,)));
+                  },
+                  child: const Text("See all",
+                      style: TextStyle(
+                          color: Color(0xfffd6f3e),
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold)),
+                )
               ],
             ),
             const SizedBox(
@@ -197,7 +198,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ProductDetailScreen(
-                                      productId: product.id),
+                                    productId: product.id,
+                                  ),
                                 ),
                               );
                             },

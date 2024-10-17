@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'package:random_string/random_string.dart';
 import '../../../widget/support_widget.dart';
@@ -318,6 +319,8 @@ class _AddProductsState extends State<AddProducts> {
                       color: const Color(0xFFececf8),
                       borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+                  keyboardType: TextInputType.phone,
                     controller: pricecontroller,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -341,6 +344,8 @@ class _AddProductsState extends State<AddProducts> {
                       color: const Color(0xFFececf8),
                       borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
+                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+                  keyboardType: TextInputType.phone,
                     controller: quntitycontroller,
                     decoration: const InputDecoration(
                       border: InputBorder.none,

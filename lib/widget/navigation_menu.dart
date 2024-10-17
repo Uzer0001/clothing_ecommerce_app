@@ -14,8 +14,8 @@ class NavigationMenu extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Obx(
         () => NavigationBar(
-          height: 80,
-          elevation: 0,
+          height: 60,
+          elevation: 5,
           selectedIndex: controller.selectedIndex.value,
           onDestinationSelected: (index) =>
               controller.selectedIndex.value = index,
@@ -51,6 +51,6 @@ class Navigationcontroller extends GetxController {
     const HomeScreen(),
     const CategoryScreen(),
     const CartScreen(),
-    const ProfileScreen()
+    ProfileScreen(),
   ];
 }

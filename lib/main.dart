@@ -8,6 +8,9 @@ import 'package:clothing_app/widget/navigation_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'screens/admin/admin_dashboard_screen.dart';
 import 'screens/auth/login_screen.dart';
@@ -15,6 +18,12 @@ import 'screens/home_screen/home_screen.dart';
 import 'services/auth_service.dart';
 
 Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark
+    )
+  );
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
@@ -25,6 +34,8 @@ Future<void> main() async {
         ),
       ],
       child: const MyApp(),
+
+      
     ),
   );
 }
@@ -40,7 +51,7 @@ class MyApp extends StatelessWidget {
           create: (_) => AuthService(),
         ),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         title: 'Clothing Store',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -60,6 +71,7 @@ class MyApp extends StatelessWidget {
           '/addCategory':(context)=>const AddCategory(),
         },
         debugShowCheckedModeBanner: false,
+        builder: EasyLoading.init(),
       ),
     );
   }

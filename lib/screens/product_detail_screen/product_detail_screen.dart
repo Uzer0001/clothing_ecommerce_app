@@ -1,12 +1,10 @@
-import 'package:clothing_app/models/product.dart';
+import 'package:clothing_app/widget/add_to_cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../widget/support_widget.dart';
-
 class ProductDetailScreen extends StatelessWidget {
   final String productId;
-  const ProductDetailScreen({super.key,required this.productId});
+  const ProductDetailScreen({super.key, required this.productId});
 
   Future<Map<String, dynamic>?> fetchProductDetails(String productId) async {
     try {
@@ -21,11 +19,15 @@ class ProductDetailScreen extends StatelessWidget {
       return null;
     }
   }
+
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(),
       backgroundColor: const Color(0xFFfef5f1),
+      floatingActionButton: AddToCart(productId: productId),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: FutureBuilder<Map<String, dynamic>?>(
         future: fetchProductDetails(productId),
         builder: (ctx, snapshot) {
@@ -69,10 +71,9 @@ class ProductDetailScreen extends StatelessWidget {
                   productData['description'],
                   style: const TextStyle(fontSize: 18),
                 ),
-                const SizedBox(height: 100.0,),
-                Center(child: ElevatedButton( style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
-              ), onPressed: (){}, child: Text("Bye Now",style: AppWidget.semiBoldTextfieldsize(),),))
+                const SizedBox(
+                  height: 100.0,
+                ),
               ],
             ),
           );
@@ -80,4 +81,5 @@ class ProductDetailScreen extends StatelessWidget {
       ),
     );
   }
+ 
 }

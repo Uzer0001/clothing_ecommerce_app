@@ -7,6 +7,7 @@ class Product {
   final double quntity;
   final double price;
   final String imageUrl;
+  final String category;
 
   Product({
     required this.id,
@@ -15,11 +16,12 @@ class Product {
     required this.quntity,
     required this.price,
     required this.imageUrl,
+    required this.category,
   });
 
   factory Product.fromDocument(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    double? quantity = data['quntity']?.toDouble();
+
     return Product(
       id: doc.id,
       title: data['title'],
@@ -27,6 +29,7 @@ class Product {
       description: data['description'],
       price: data['price'].toDouble(),
       imageUrl: data['imageUrl'],
+      category: data['category'],
     );
   }
 
@@ -39,6 +42,7 @@ class Product {
       price: json['price'].toDouble(), 
       quntity:json['quntity'].toDouble(),
       description: json['description'],
+      category:json['category'],
     );
   }
 
@@ -50,6 +54,7 @@ class Product {
       'price': price,
       'quntity':quntity,
       'description': description,
+      'category':category,
     };
   }
   factory Product.fromFirestore(DocumentSnapshot doc) {
@@ -61,6 +66,7 @@ class Product {
       quntity: data['quntity'],
       price: data['price'],
       imageUrl: data['imageUrl'],
+      category:data['category'],
     );
   }
 }
