@@ -20,6 +20,24 @@ class _CategoryScreenState extends State<CategoryScreen> {
     _fetchCategories();
   }
 
+  // Future<void> _fetchCategories() async {
+  //   try {
+  //     // Fetch categories from Firestore
+  //     CollectionReference categoryRef =
+  //         FirebaseFirestore.instance.collection('categories');
+  //     QuerySnapshot categorySnapshot = await categoryRef.get();
+  //     List<Category> loadedCategories = categorySnapshot.docs.map((doc) {
+  //       return Category.fromFirestore(doc);
+  //     }).toList();
+
+  //     setState(() {
+  //       categories = loadedCategories;
+  //     });
+  //   } catch (error) {
+  //     print("Error fetching categories: $error");
+  //   }
+  // }
+
   Future<void> _fetchCategories() async {
     try {
       // Fetch categories from Firestore
@@ -37,11 +55,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
       print("Error fetching categories: $error");
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Categories'),
       ),
       body: categories.isEmpty

@@ -99,6 +99,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your password';
                         }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters long';
+                        }
+                        // final uppercaseRegExp = RegExp(r'[A-Z]');
+                        // final numberRegExp = RegExp(r'[0-9]');
+                        // final specialCharRegExp =
+                            // RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+
+                        // if (!uppercaseRegExp.hasMatch(value)) {
+                        //   return 'Password must contain at least one uppercase letter';
+                        // }
+                        // if (!numberRegExp.hasMatch(value)) {
+                        //   return 'Password must contain at least one number';
+                        // }
+                        // if (!specialCharRegExp.hasMatch(value)) {
+                        //   return 'Password must contain at least one special character';
+                        // }
+
                         return null;
                       },
                       onChanged: (value) {

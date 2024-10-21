@@ -18,7 +18,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     // Handle potential deletion in ProductDetailsScreen (explained there)
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => EditCategory(documentId: documentId),
+        builder: (context) => EditCategoryScreen(categoryId: documentId),
       ),
     );
   }

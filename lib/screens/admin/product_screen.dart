@@ -18,7 +18,7 @@ class _ProductScreenState extends State<ProductScreen> {
     // Handle potential deletion in ProductDetailsScreen (explained there)
     await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => Editproductscreen(documentId: documentId),
+        builder: (context) => EditProductScreen(productId: documentId),
       ),
     );
   }

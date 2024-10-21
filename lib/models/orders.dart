@@ -79,4 +79,5 @@ class Orders {
       customerDeviceToken:json['customerDeviceToken'],
       );
   }
+  
 }

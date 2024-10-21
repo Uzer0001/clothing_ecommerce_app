@@ -1,6 +1,7 @@
 import 'package:clothing_app/widget/add_to_cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final String productId;
@@ -45,10 +46,13 @@ class ProductDetailScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.network(
-                  productData['imageUrl'],
-                  height: 250,
-                  fit: BoxFit.cover,
+                Center(
+                  child: Image.network(
+                    productData['imageUrl'],
+                    height: 250,
+                    width: 250,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Text(

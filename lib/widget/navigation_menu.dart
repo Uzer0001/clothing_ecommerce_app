@@ -51,6 +51,6 @@ class Navigationcontroller extends GetxController {
     const HomeScreen(),
     const CategoryScreen(),
     const CartScreen(),
-    ProfileScreen(),
+    const ProfileScreen(),
   ];
 }

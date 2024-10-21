@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 // import 'package:random_string/random_string.dart';
 import '../../../widget/support_widget.dart';
@@ -41,6 +42,7 @@ class _AddProductsState extends State<AddProducts> {
 
   Future<void> _submitProduct() async {
     if (_formKey.currentState!.validate()) {
+      EasyLoading.show(status: "Please wait");
       try {
         // Upload image to Firebase Storage
         final ref = FirebaseStorage.instance
@@ -60,7 +62,7 @@ class _AddProductsState extends State<AddProducts> {
           'category': selectedCategory,
         };
         await FirebaseFirestore.instance.collection('Product').add(productData);
-
+        EasyLoading.dismiss();
         // Show success message or navigate to product list
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -70,6 +72,7 @@ class _AddProductsState extends State<AddProducts> {
             ),
           );
         }
+        
       } catch (e) {
         // Handle error
         if (mounted) {
@@ -320,7 +323,7 @@ class _AddProductsState extends State<AddProducts> {
                       borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.number,
                     controller: pricecontroller,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -345,7 +348,7 @@ class _AddProductsState extends State<AddProducts> {
                       borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.number,
                     controller: quntitycontroller,
                     decoration: const InputDecoration(
                       border: InputBorder.none,

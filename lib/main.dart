@@ -1,7 +1,9 @@
 import 'package:clothing_app/screens/admin/add_category/add_category.dart';
 import 'package:clothing_app/screens/admin/add_product/add_products.dart';
 import 'package:clothing_app/screens/admin/category_screen.dart';
+import 'package:clothing_app/screens/admin/order_screen.dart';
 import 'package:clothing_app/screens/admin/product_screen.dart';
+import 'package:clothing_app/screens/admin/user_screen.dart';
 import 'package:clothing_app/screens/auth/forgot_password.dart';
 import 'package:clothing_app/screens/auth/registration_screen.dart';
 import 'package:clothing_app/widget/navigation_menu.dart';
@@ -69,6 +71,8 @@ class MyApp extends StatelessWidget {
           '/productScreen': (context) => const ProductScreen(),
           '/categoryScreen': (context) => const CategoryScreen(),
           '/addCategory':(context)=>const AddCategory(),
+          '/usersScreen':(context)=>const UsersScreen(),
+          '/orderScreen':(context)=>const AdminOrderScreen(),
         },
         debugShowCheckedModeBanner: false,
         builder: EasyLoading.init(),

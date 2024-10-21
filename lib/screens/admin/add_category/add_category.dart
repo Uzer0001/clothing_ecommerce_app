@@ -16,33 +16,42 @@ class AddCategory extends StatefulWidget {
 
 class _AddCategoryState extends State<AddCategory> {
   final _formKey = GlobalKey<FormState>();
-
   final ImagePicker _picker = ImagePicker();
   File? selectedImage;
   String? _categoriesImageLink;
-  String? selectedCategory;
-  TextEditingController namecontroller = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  List<TextEditingController> subcategoryControllers = [];
+
   Future getImage() async {
     var image = await _picker.pickImage(source: ImageSource.gallery);
-    selectedImage = File(image!.path);
-    setState(() {});
+    if (image != null) {
+      selectedImage = File(image.path);
+      setState(() {});
+    }
   }
 
-  Future<void> _submitProduct() async {
-    if (_formKey.currentState!.validate()) {
+  Future<void> _submitCategory() async {
+    if (_formKey.currentState!.validate() && selectedImage != null) {
       try {
         // Upload image to Firebase Storage
         final ref = FirebaseStorage.instance
             .ref()
             .child('categories/${DateTime.now().millisecondsSinceEpoch}');
-        final uploadTask = ref.putFile(File(selectedImage!.path));
-        final snapshot = await uploadTask.whenComplete(() => null);
+        final uploadTask = ref.putFile(selectedImage!);
+        final snapshot = await uploadTask;
         _categoriesImageLink = await snapshot.ref.getDownloadURL();
 
-        // Create product document in Firestore
+        // Prepare subcategories
+        List<String> subcategories = [];
+        for (var controller in subcategoryControllers) {
+          subcategories.add(controller.text);
+        }
+
+        // Create category document in Firestore
         final categoryData = {
-          'name': namecontroller.text,
+          'name': nameController.text,
           'imageUrl': _categoriesImageLink,
+          'subCategories': subcategories,
         };
         await FirebaseFirestore.instance
             .collection('categories')
@@ -52,11 +61,13 @@ class _AddCategoryState extends State<AddCategory> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('category added successfully'),
+              content: Text('Category added successfully'),
               backgroundColor: Colors.green,
             ),
           );
         }
+        // Reset form after submission
+        _resetForm();
       } catch (e) {
         // Handle error
         if (mounted) {
@@ -69,6 +80,16 @@ class _AddCategoryState extends State<AddCategory> {
     }
   }
 
+  void _resetForm() {
+    selectedImage = null;
+    nameController.clear();
+    for (var controller in subcategoryControllers) {
+      controller.clear();
+    }
+    subcategoryControllers.clear();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +100,7 @@ class _AddCategoryState extends State<AddCategory> {
             },
             child: const Icon(Icons.arrow_back_ios_new_outlined)),
         title: Text(
-          "Add Product",
+          "Add Category",
           style: AppWidget.semiBoldTextfieldsize(),
         ),
       ),
@@ -92,12 +113,10 @@ class _AddCategoryState extends State<AddCategory> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Upload category Image",
+                  "Upload Category Image",
                   style: AppWidget.lightTextFieldStyle(),
                 ),
-                const SizedBox(
-                  height: 20.0,
-                ),
+                const SizedBox(height: 20.0),
                 selectedImage == null
                     ? GestureDetector(
                         onTap: () => getImage(),
@@ -106,8 +125,7 @@ class _AddCategoryState extends State<AddCategory> {
                             height: 150,
                             width: 150,
                             decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.black, width: 1.5),
+                                border: Border.all(color: Colors.black, width: 1.5),
                                 borderRadius: BorderRadius.circular(20)),
                             child: const Icon(Icons.camera_alt_outlined),
                           ),
@@ -121,8 +139,7 @@ class _AddCategoryState extends State<AddCategory> {
                             height: 150,
                             width: 150,
                             decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: Colors.black, width: 1.5),
+                              border: Border.all(color: Colors.black, width: 1.5),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: ClipRRect(
@@ -135,16 +152,12 @@ class _AddCategoryState extends State<AddCategory> {
                           ),
                         ),
                       ),
-                const SizedBox(
-                  height: 20.0,
-                ),
+                const SizedBox(height: 20.0),
                 Text(
-                  "category Name",
+                  "Category Name",
                   style: AppWidget.lightTextFieldStyle(),
                 ),
-                const SizedBox(
-                  height: 20.0,
-                ),
+                const SizedBox(height: 20.0),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   width: MediaQuery.of(context).size.width,
@@ -152,33 +165,32 @@ class _AddCategoryState extends State<AddCategory> {
                       color: const Color(0xFFececf8),
                       borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
-                    controller: namecontroller,
+                    controller: nameController,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a category name';
+                      }
+                      return null;
+                    },
                   ),
                 ),
-                const SizedBox(
-                  height: 30.0,
-                ),
+                const SizedBox(height: 30.0),
                 Center(
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(Colors.green),
+                      backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
                     ),
-                    onPressed: () {
-                      _submitProduct();
-                    },
+                    onPressed: _submitCategory,
                     child: const Text(
-                      "Add category",
+                      "Add Category",
                       style: TextStyle(fontSize: 22.0, color: Colors.black),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 30.0,
-                ),
+                const SizedBox(height: 30.0),
               ],
             ),
           ),

@@ -22,8 +22,9 @@ class AllProductScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    ProductDetailScreen(productId: products[i].id,),
+                builder: (context) => ProductDetailScreen(
+                  productId: products[i].id,
+                ),
               ),
             );
           },
@@ -35,7 +36,7 @@ class AllProductScreen extends StatelessWidget {
         ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 3/2.7,
+          childAspectRatio: 3 / 4.4,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),

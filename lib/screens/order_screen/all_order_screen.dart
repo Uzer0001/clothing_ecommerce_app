@@ -1,14 +1,11 @@
 import 'package:clothing_app/controller/cart_price_controller.dart';
-import 'package:clothing_app/models/cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swipe_action_cell/core/cell.dart';
 import 'package:get/get.dart';
-
 import '../../models/orders.dart';
-import '../checkout_screen/checkout_screen.dart';
+
 
 class AllOrderScreen extends StatefulWidget {
   const AllOrderScreen({super.key});
